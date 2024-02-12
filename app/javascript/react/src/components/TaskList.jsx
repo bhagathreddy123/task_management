@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom'
+import TaskDetail from './TaskDetail'
 
 const TaskList = () => {
 	const tasksList = [
@@ -35,13 +36,8 @@ const TaskList = () => {
 		<div className="row">
 			<div className="col-lg-10 mx-auto">
 			 {tasksList.map((task) =>  
-			 	<div className="card rounded-0 mt-3" key={task.id}>
-	              <h3 className="card-tile">{task.title}</h3>
-	              <p className="lead">
-	              <span className="badge bg-primary">{task.description}</span>
-	              </p>
-	            </div>
-			)}
+	             < TaskDetail task={task} key={task.id} />
+		     )}
 			</div>		
 		</div>
 		)
