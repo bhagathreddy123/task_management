@@ -13,6 +13,8 @@ const TaskList = () => {
 	]
 	const [taskList, setTaskList] = useState([])
 	const [selectedOption, setSelectedOption] = useState(tasksStatuses[0].value)
+	const [isShowAlert, SetIsShowAlert] = useState(false)
+
 	const tasksUrl = 'http://localhost:3000/api/v1/tasks'
 
 	const fetchTaskList = () => {
@@ -20,6 +22,11 @@ const TaskList = () => {
 	    .then((response) => response.json())
 		.then((data) => {
 			setTaskList(data)
+			if(data.length == 0) {
+    			SetIsShowAlert(true)
+    		} else {
+    			SetIsShowAlert(false)
+    		}
 		})
 	}
 	useEffect(() => {
@@ -35,6 +42,11 @@ const TaskList = () => {
     	.then((data) => {
     		console.log(data)
     		setTaskList(data)
+    		if(data.length == 0) {
+    			SetIsShowAlert(true)
+    		} else {
+    			SetIsShowAlert(false)
+    		}
     	})
     }
 
@@ -51,8 +63,9 @@ const TaskList = () => {
 			 {  taskList.length > 0 ?
 			     taskList.map((task) =>  
 			 	<TaskDetail task={task} key={task.id} />	
-			    ) : <EmptyTaskMessage status={tasksStatuses[selectedOption].label}/>
+			    ) : ''
 		     }
+		     { isShowAlert && <EmptyTaskMessage status={tasksStatuses[selectedOption].label}/>}
 			</div>		
 		</div>
 		)
