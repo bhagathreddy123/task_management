@@ -6,3 +6,5 @@
 
  install react node modules to the application using below command
  npm install react react-dom
+ gem install foreman
+ ./bin/dev
