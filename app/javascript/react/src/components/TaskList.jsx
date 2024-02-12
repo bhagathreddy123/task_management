@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import * as ReactDom from 'react-dom'
 import TaskDetail from './TaskDetail'
 import EmptyTaskMessage from './EmptyTaskMessage'
+import Loader from './Loader'
 
 const TaskList = () => {
 	const tasksStatuses = [
@@ -14,10 +15,12 @@ const TaskList = () => {
 	const [taskList, setTaskList] = useState([])
 	const [selectedOption, setSelectedOption] = useState(tasksStatuses[0].value)
 	const [isShowAlert, SetIsShowAlert] = useState(false)
+    const [isShowLoader, SetIsShowLoader] = useState(true)
 
 	const tasksUrl = 'http://localhost:3000/api/v1/tasks'
 
 	const fetchTaskList = () => {
+      SetIsShowLoader(false)
 	  fetch(tasksUrl)
 	    .then((response) => response.json())
 		.then((data) => {
@@ -34,6 +37,8 @@ const TaskList = () => {
 	}, [])
 
 	const updateSelectedItem = (event) => {
+		SetIsShowLoader(false)
+		SetIsShowAlert(false)
     	setTaskList([])
     	setSelectedOption(event.target.value)
     	fetch(tasksUrl + `?status=${tasksStatuses[event.target.value].label}
@@ -44,8 +49,7 @@ const TaskList = () => {
     		setTaskList(data)
     		if(data.length == 0) {
     			SetIsShowAlert(true)
-    		} else {
-    			SetIsShowAlert(false)
+    			SetIsShowLoader(true)
     		}
     	})
     }
@@ -63,7 +67,7 @@ const TaskList = () => {
 			 {  taskList.length > 0 ?
 			     taskList.map((task) =>  
 			 	<TaskDetail task={task} key={task.id} />	
-			    ) : ''
+			    ) : <Loader isShowLoader={isShowLoader} />
 		     }
 		     { isShowAlert && <EmptyTaskMessage status={tasksStatuses[selectedOption].label}/>}
 			</div>		
