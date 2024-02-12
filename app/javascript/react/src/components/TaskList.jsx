@@ -4,13 +4,13 @@ import * as ReactDom from 'react-dom'
 import TaskDetail from './TaskDetail'
 import EmptyTaskMessage from './EmptyTaskMessage'
 import Loader from './Loader'
+import NewTask from './NewTask'
 
 const TaskList = () => {
 	const tasksStatuses = [
-	  { label: 'All', value: 0 },
-      { label: 'To Do', value: 1 },
-      { label: 'In Progress', value: 2 },
-      { label: 'Done', value: 3 }      
+	  { label: 'To Do', value: 0 },
+      { label: 'In Progress', value: 1 },
+      { label: 'Done', value: 2 }      
 	]
 	const [taskList, setTaskList] = useState([])
 	const [selectedOption, setSelectedOption] = useState(tasksStatuses[0].value)
@@ -58,6 +58,9 @@ const TaskList = () => {
 		<div className="row">
 			<div className="col-lg-10 mx-auto">
 			 <p className="lead fw-bold">Filter Tasks by Status</p>
+			 <button type="button" className="btn btn-primary mt-3 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Contribute Your Task
+            </button>
 			 <select className="form-select form-select-lg" value={selectedOption}
 			  onChange={event => updateSelectedItem(event)}>
 			 {tasksStatuses.map(task=>(
@@ -70,7 +73,8 @@ const TaskList = () => {
 			    ) : <Loader isShowLoader={isShowLoader} />
 		     }
 		     { isShowAlert && <EmptyTaskMessage status={tasksStatuses[selectedOption].label}/>}
-			</div>		
+			</div>	
+			<NewTask />		
 		</div>
 		)
 
