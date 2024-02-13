@@ -44,3 +44,5 @@ Testing in Postman after adding description param in create action.
 
 rails g rspec:install
 RAILS_ENV=test rails db:migrate
+
+rails g rspec:model task
