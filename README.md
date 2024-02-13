@@ -8,3 +8,29 @@
  npm install react react-dom
  gem install foreman
  ./bin/dev
+
+ checking in Postman
+
+ method GET: 
+ URL: http://localhost:3000/api/v1/tasks?status=To Do
+
+ checking to create a Post in POSTMAN.
+
+method POST
+ URL: http://localhost:3000/api/v1/tasks
+
+
+ {
+    "title": "please create the task"
+    "status": "In Progress"
+}
+
+
+display error message when empty title submission
+method POST
+ URL: http://localhost:3000/api/v1/tasks
+
+{
+    "title": "",
+    "status": ""
+}

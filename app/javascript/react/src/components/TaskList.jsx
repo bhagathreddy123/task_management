@@ -41,6 +41,7 @@ const TaskList = () => {
 		SetIsShowAlert(false)
     	setTaskList([])
     	setSelectedOption(event.target.value)
+    	console.log(event)
     	fetch(tasksUrl + `?status=${tasksStatuses[event.target.value].label}
     	`)
     	.then((response) => response.json())

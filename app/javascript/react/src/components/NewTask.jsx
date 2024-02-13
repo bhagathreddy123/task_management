@@ -1,28 +1,55 @@
 import * as React from 'react'
 import {useState, useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
+import ServerSideError from './ServerSideError'
 
 const NewTask = () => {
 	const tasksStatuses = [
-      { label: 'To Do', value: 0 },
-      { label: 'In Progress', value: 1 },
-      { label: 'Done', value: 2 }
+      { label: 'To Do', value: 'To Do' },
+      { label: 'In Progress', value: 'In Progress' },
+      { label: 'Done', value: 'Done' }
 	]
 
-	const [title, setTitle] = useState('')
-	const [status, setStatus] = useState(tasksStatuses[0].value)
+	const [isServerSideError, setIsServerSideError] = useState(false)
+	const [serverErrors, setServerErrors] = useState([])
 
-	const handleTitleChange = (event) => {
-		setTitle(event.target.value)
-	}
-
-	const handleStatusChange = (event) => {
-		setTag(event.target.value)
-	}
+	const [formField, setFormField] = useState({
+		title: '',
+		status: tasksStatuses[0].value
+	})
 
 	const handleTaskSubmit = (event) => {
       event.preventDefault();
-      console.log({title: title, status: status})
+      console.log(formField)
+      createTask(formField)
+    }
+
+    const handleFormFields = (event) => {
+    	setFormField({...formField, [event.target.name]: event.target.value})
+    }
+    
+    const createTask = (data) => {
+    	fetch(`/api/v1/tasks`, {
+    		method: 'POST',
+    		headers: {
+    			'Content-Type': 'application/json'
+    		},
+    		body: JSON.stringify(data)
+    	})
+    	.then((response) => response.json())
+    	.then((data) => {
+    		console.log('Success:', data)
+    		if(data['status'] === 'failure'){
+    			setIsServerSideError(true)
+    			setServerErrors(data['data'])
+    		} else {
+    			setIsServerSideError(false)
+    			setServerErrors([])
+    		}
+    	})
+    	.catch((error) => {
+    		console.log('Error:', error)
+    	})
     }
 
 	return(
@@ -38,13 +65,13 @@ const NewTask = () => {
 			      <div className="modal-body">
 			        <div className="form-group">
 			           <label className="form-label mt-3 mb-3"> Title</label>
-			           <input type="text" className="form-control form-control-lg rounded-0" value={title}
-			            onChange={event => handleTitleChange(event)} name="title" />
+			           <input type="text" className="form-control form-control-lg rounded-0" value={formField.title}
+			            onChange={event => handleFormFields(event)} name="title" />
 			        </div>
 			        <div className="form-group">
 			           <label className="form-label mt-3 mb-3"> Task Status</label>
-			           <select className="form-select form-slect-lg rounded-0" value={status} 
-			             onChange={ event => handleStatusChange(event)} name="tag">
+			           <select className="form-select form-slect-lg rounded-0" value={formField.status} 
+			             onChange={ event => handleFormFields(event)} name="tag">
 			           	{ tasksStatuses.map(status => (
 			           		<option key={status.value} value={status.value}>{status.label}</option>
 			           		))}
