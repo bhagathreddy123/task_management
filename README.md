@@ -41,3 +41,6 @@ Testing in Postman after adding description param in create action.
     "status": "In Progress",
     "description": "Tesing Descripton"
 }
+
+rails g rspec:install
+RAILS_ENV=test rails db:migrate
