@@ -15,6 +15,7 @@ const NewTask = () => {
 
 	const [formField, setFormField] = useState({
 		title: '',
+		description: '',
 		status: tasksStatuses[0].value
 	})
 
@@ -70,7 +71,12 @@ const NewTask = () => {
 			            onChange={event => handleFormFields(event)} name="title" />
 			        </div>
 			        <div className="form-group">
-			           <label className="form-label mt-3 mb-3"> Task Status</label>
+			           <label className="form-label mt-3 mb-3"> Description</label>
+			           <input type="text" className="form-control form-control-lg rounded-0" value={formField.description}
+			            onChange={event => handleFormFields(event)} name="description" />
+			        </div>
+			        <div className="form-group">
+			           <label className="form-label mt-3 mb-3"> Status</label>
 			           <select className="form-select form-slect-lg rounded-0" value={formField.status} 
 			             onChange={ event => handleFormFields(event)} name="status">
 			           	{ tasksStatuses.map(status => (

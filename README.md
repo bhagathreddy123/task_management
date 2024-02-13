@@ -34,3 +34,10 @@ method POST
     "title": "",
     "status": ""
 }
+
+Testing in Postman after adding description param in create action.
+{
+    "title": "testing title",
+    "status": "In Progress",
+    "description": "Tesing Descripton"
+}
